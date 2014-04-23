@@ -22,7 +22,7 @@ Load this gem in your Rails initializer:
 
 ```
 require 'paperclip/mimemagic'
-Paperclip::Mimemagic.patch
+Paperclip::Mimemagic.patch if `which file` == ""
 ```
 
 and both Paperclip::ContentTypeDetector and Paperclip::MediaTypeSpoofDetector will be monkeypatched.
