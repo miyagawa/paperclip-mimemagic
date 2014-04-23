@@ -1,16 +1,19 @@
-require "paperclip/command_type_detector"
+require "paperclip/content_type_detector"
 require "paperclip/media_type_spoof_detector"
 require "paperclip/mimemagic/version"
-require 'mimemagic'
+require "mimemagic"
 
 module Paperclip
   module Mimemagic
-    SENSIBLE_DEFAULT = 'application/octet-stream'
-
-    def type_from_magic(file)
-      MimeMagic.by_magic(File.open(file)) || SENSIBLE_DEFAULT
+    def self.type_from_magic(file)
+      magic = MimeMagic.by_magic(File.open(file))
+      if magic
+        magic.type
+      else
+        nil
+      end
     rescue StandardError
-      SENSIBLE_DEFAULT
+      nil
     end
   end
 
@@ -22,7 +25,7 @@ module Paperclip
 
   class MediaTypeSpoofDetector
     def type_from_file_command
-      Mimemagic.type_from_magic(@filename)
+      Mimemagic.type_from_magic(@file.path) || ""
     end
   end
 end
