@@ -1,6 +1,6 @@
 # Paperclip::Mimemagic
 
-TODO: Write a gem description
+Monkeypatch to use Mimemagic gem instead of `file` command to guess a MIME type of files.
 
 ## Installation
 
@@ -18,7 +18,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Load this gem in your Rails initializer:
+
+```
+require 'paperclip/mimemagic'
+Paperclip::Mimemagic.patch
+```
+
+and both Paperclip::ContentTypeDetector and Paperclip::MediaTypeSpoofDetector will be monkeypatched.
 
 ## Contributing
 

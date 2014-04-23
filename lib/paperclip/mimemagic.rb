@@ -15,17 +15,18 @@ module Paperclip
     rescue StandardError
       nil
     end
-  end
 
-  class ContentTypeDetector
-    def type_from_file_command
-      @type_from_file_command ||= Mimemagic.type_from_magic(@filename)
-    end
-  end
-
-  class MediaTypeSpoofDetector
-    def type_from_file_command
-      Mimemagic.type_from_magic(@file.path) || ""
+    def self.patch
+      Paperclip::ContentTypeDetector.class_eval do
+        def type_from_file_command
+          @type_from_file_command ||= Mimemagic.type_from_magic(@filename)
+        end
+      end
+      Paperclip::MediaTypeSpoofDetector.class_eval do
+        def type_from_file_command
+          Mimemagic.type_from_magic(@file.path) || ""
+        end
+      end
     end
   end
 end
